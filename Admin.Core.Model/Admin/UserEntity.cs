@@ -1,7 +1,7 @@
 using System;
-using FreeSql.DataAnnotations;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using Admin.Core.Common.BaseModel;
+using FreeSql.DataAnnotations;
 
 namespace Admin.Core.Model.Admin
 {
@@ -9,37 +9,31 @@ namespace Admin.Core.Model.Admin
     /// 用户
     /// </summary>
 	[Table(Name = "ad_user")]
-    [Index("uk_user_username", "UserName", true)]
+    [Index("uk_user_username", nameof(UserName), true)]
     public class UserEntity: EntityBase
     {
         /// <summary>
         /// 账号
         /// </summary>
-        [MaxLength(60)]
+        [Column(StringLength = 60)]
         public string UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        [MaxLength(60)]
+        [Column(StringLength = 60)]
         public string Password { get; set; }
-
-        /// <summary>
-        /// 姓名
-        /// </summary>
-        [MaxLength(60)]
-        public string Name { get; set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-        [MaxLength(60)]
+        [Column(StringLength = 60)]
         public string NickName { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        [MaxLength(100)]
+       [Column(StringLength = 100)]
         public string Avatar { get; set; }
 
         /// <summary>
@@ -50,7 +44,7 @@ namespace Admin.Core.Model.Admin
         /// <summary>
         /// 备注
         /// </summary>
-        [MaxLength(4000)]
+        [Column(StringLength = 500)]
         public string Remark { get; set; }
 
         [Navigate(ManyToMany = typeof(UserRoleEntity))]

@@ -1,11 +1,24 @@
 {
+  //Api地址
+  "urls": "http://*:8888",
   //Swagger文档
   "swagger": false,
-  //Api地址
-  "urls": "http://*:8081",
   //面向切面编程
   "aop": {
     //事物
-    "transaction": false
+    "transaction": true
+  },
+  //日志
+  "log": {
+    //操作日志
+    "operation": true
+  },
+  //限流
+  "rateLimit": true,
+  //验证码
+  "varifyCode": {
+    "enabled": true,
+    // 字体
+    "font": [ "Times New Roman", "Verdana", "Arial", "Gungsuh", "Impact" ]
   }
 }

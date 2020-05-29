@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Autofac.Extensions.DependencyInjection;
 using NLog.Web;
+using Autofac.Extensions.DependencyInjection;
+using Admin.Core.Common.Helpers;
+using Admin.Core.Common.Configs;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+using Microsoft.Extensions.Configuration;
 //using NLog;
 //using NLog.Extensions.Logging;
-using Admin.Core.Common.Helpers;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using Admin.Core.Common.Configs;
 //using EnvironmentName = Microsoft.AspNetCore.Hosting.EnvironmentName;
 
 namespace Admin.Core
@@ -18,10 +19,7 @@ namespace Admin.Core
         public static void Main(string[] args)
         {
             Console.WriteLine("launching...");
-            var host = CreateHostBuilder(args).Build();
-            var appConfig = new ConfigHelper().Get<AppConfig>("appconfig") ?? new AppConfig();
-            Console.WriteLine($"{appConfig.Urls}\r\n");
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -39,6 +37,17 @@ namespace Admin.Core
                 webBuilder
                 //.UseEnvironment(EnvironmentName.Production)
                 .UseStartup<Startup>()
+                .ConfigureAppConfiguration((host, config) =>
+                {
+                    if (appConfig.RateLimit)
+                    {
+                        config.AddJsonFile("./configs/ratelimitconfig.json", optional: true, reloadOnChange: true)
+#if DEBUG
+                        .AddJsonFile("./configs/ratelimitconfig.Development.json", false)
+#endif
+                    ;
+                    }
+                })
                 .UseUrls(appConfig.Urls);
             })
             .ConfigureLogging(logging =>

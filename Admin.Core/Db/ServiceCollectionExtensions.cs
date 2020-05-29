@@ -4,8 +4,8 @@ using Microsoft.Extensions.Hosting;
 using FreeSql;
 using Admin.Core.Common.Configs;
 using Admin.Core.Common.Helpers;
-using Admin.Core.Model;
 using Admin.Core.Common.Auth;
+using Admin.Core.Common.BaseModel;
 
 namespace Admin.Core.Db
 {
@@ -16,7 +16,8 @@ namespace Admin.Core.Db
         /// </summary>
         /// <param name="services"></param>
         /// <param name="env"></param>
-        public async static void AddDb(this IServiceCollection services, IHostEnvironment env)
+        /// <param name="appConfig"></param>
+        public async static void AddDb(this IServiceCollection services, IHostEnvironment env, AppConfig appConfig)
         {
             var dbConfig = new ConfigHelper().Get<DbConfig>("dbconfig", env.EnvironmentName);
 
@@ -45,18 +46,22 @@ namespace Admin.Core.Db
             #endregion
 
             var fsql = freeSqlBuilder.Build();
+            //fsql.GlobalFilter.Apply<IEntitySoftDelete>("SoftDelete", a => a.IsDeleted == false);
+            services.AddFreeRepository(filter => filter.Apply<IEntitySoftDelete>("SoftDelete", a => a.IsDeleted == false));
+            services.AddScoped<UnitOfWorkManager>();
+            services.AddSingleton(fsql);
 
             #region 初始化数据库
             //同步结构
             if (dbConfig.SyncStructure)
             {
-                DbHelper.SyncStructure(fsql, dbType: dbConfig.Type.ToString());
+                DbHelper.SyncStructure(fsql, dbConfig: dbConfig);
             }
 
             //同步数据
             if (dbConfig.SyncData)
             {
-                await DbHelper.SyncData(fsql);
+                await DbHelper.SyncData(fsql, dbConfig);
             }
             #endregion
 
@@ -71,7 +76,10 @@ namespace Admin.Core.Db
             {
                 fsql.Aop.CurdBefore += (s, e) =>
                 {
-                    Console.WriteLine($"{e.Sql}\r\n");
+                    System.Threading.Tasks.Parallel.For(0, 1, body =>
+                    {
+                        Console.WriteLine($"{e.Sql}\r\n");
+                    });
                 };
             }
             #endregion
@@ -79,20 +87,24 @@ namespace Admin.Core.Db
             #region 审计数据
             //计算服务器时间
             //var serverTime = fsql.Select<T>().Limit(1).First(a => DateTime.local);
-            //var timeOffset = DateTime.UtcNow.Subtract(serverTime); 
+            //var timeOffset = DateTime.UtcNow.Subtract(serverTime);
+            var user = services.BuildServiceProvider().GetService<IUser>();
             fsql.Aop.AuditValue += (s, e) =>
             {
-                var user = services.BuildServiceProvider().GetService<IUser>();
+                if (user == null || user.Id <= 0)
+                {
+                    return;
+                }
 
                 if (e.AuditValueType == FreeSql.Aop.AuditValueType.Insert)
                 {
                     switch (e.Property.Name)
                     {
                         case "CreatedUserId":
-                            e.Value = user?.Id;
+                            e.Value = user.Id;
                             break;
                         case "CreatedUserName":
-                            e.Value = user?.Name;
+                            e.Value = user.Name;
                             break;
                             //case "CreatedTime":
                             //    e.Value = DateTime.Now.Subtract(timeOffset);
@@ -104,10 +116,10 @@ namespace Admin.Core.Db
                     switch (e.Property.Name)
                     {
                         case "ModifiedUserId":
-                            e.Value = user?.Id;
+                            e.Value = user.Id;
                             break;
                         case "ModifiedUserName":
-                            e.Value = user?.Name;
+                            e.Value = user.Name;
                             break;
                             //case "ModifiedTime":
                             //    e.Value = DateTime.Now.Subtract(timeOffset);
@@ -116,11 +128,9 @@ namespace Admin.Core.Db
                 }
             };
             #endregion
-
-            services.AddSingleton(fsql);
-            services.AddFreeRepository(filter => filter.Apply<IEntitySoftDelete>("SoftDelete", a => a.IsDeleted == false));
-            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<IFreeSql>().CreateUnitOfWork());
             #endregion
+
+            Console.WriteLine($"{appConfig.Urls}\r\n");
         }
     }
 }

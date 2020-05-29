@@ -1,14 +1,16 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Claims;
+using AutoMapper;
 using Admin.Core.Model.Admin;
-using Admin.Core.Model.Output;
+using Admin.Core.Common.Output;
 using Admin.Core.Repository.Admin;
-using Admin.Core.Common.Helpers;
 using Admin.Core.Common.Auth;
 using Admin.Core.Common.Cache;
+using Admin.Core.Common.Configs;
+using Admin.Core.Common.Helpers;
 using Admin.Core.Service.Admin.Auth.Input;
+using Admin.Core.Service.Admin.Auth.Output;
 
 namespace Admin.Core.Service.Admin.Auth
 {
@@ -16,50 +18,59 @@ namespace Admin.Core.Service.Admin.Auth
     {
         private readonly IUser _user;
         private readonly ICache _cache;
-        private readonly IUserToken _userToken;
+        private readonly IMapper _mapper;
+        private readonly AppConfig _appConfig;
+        private readonly VerifyCodeHelper _verifyCodeHelper;
         private readonly IUserRepository _userRepository;
-        private readonly IRolePermissionRepository _rolePermissionRepository;
+        private readonly IPermissionRepository _permissionRepository;
 
         public AuthService(
             IUser user,
             ICache cache,
-            IUserToken userToken,
+            IMapper mapper,
+            AppConfig appConfig,
+            VerifyCodeHelper verifyCodeHelper,
             IUserRepository userRepository,
-            IRolePermissionRepository rolePermissionRepository
+            IPermissionRepository permissionRepository
         )
         {
             _user = user;
             _cache = cache;
-            _userToken = userToken;
+            _mapper = mapper;
+            _appConfig = appConfig;
+            _verifyCodeHelper = verifyCodeHelper;
             _userRepository = userRepository;
-            _rolePermissionRepository = rolePermissionRepository;
+            _permissionRepository = permissionRepository;
         }
 
         public async Task<IResponseOutput> LoginAsync(AuthLoginInput input)
         {
             #region 验证码校验
-            var verifyCodeKey = string.Format(CacheKey.VerifyCodeKey, input.VerifyCodeKey);
-            var exists = await _cache.ExistsAsync(verifyCodeKey);
-            if (exists)
+            if (_appConfig.VarifyCode.Enabled)
             {
-                var verifyCode = await _cache.GetAsync(verifyCodeKey);
-                if (string.IsNullOrEmpty(verifyCode))
+                var verifyCodeKey = string.Format(CacheKey.VerifyCodeKey, input.VerifyCodeKey);
+                var exists = await _cache.ExistsAsync(verifyCodeKey);
+                if (exists)
                 {
-                    return ResponseOutput.NotOk("验证码已过期！",1);
+                    var verifyCode = await _cache.GetAsync(verifyCodeKey);
+                    if (string.IsNullOrEmpty(verifyCode))
+                    {
+                        return ResponseOutput.NotOk("验证码已过期！", 1);
+                    }
+                    if (verifyCode.ToLower() != input.VerifyCode.ToLower())
+                    {
+                        return ResponseOutput.NotOk("验证码输入有误！", 2);
+                    }
+                    await _cache.DelAsync(verifyCodeKey);
                 }
-                if (verifyCode.ToLower() != input.VerifyCode.ToLower())
+                else
                 {
-                    return ResponseOutput.NotOk("验证码输入有误！",2);
+                    return ResponseOutput.NotOk("验证码已过期！", 1);
                 }
-                await _cache.DelAsync(verifyCodeKey);
-            }
-            else
-            {
-                return ResponseOutput.NotOk("验证码已过期！", 1);
             }
             #endregion
 
-            var user = (await _userRepository.Select.Where(a => a.UserName == input.UserName).ToOneAsync());
+            var user = (await _userRepository.GetAsync(a => a.UserName == input.UserName));
             if (!(user?.Id > 0))
             {
                 return ResponseOutput.NotOk("账号输入有误!", 3);
@@ -73,16 +84,16 @@ namespace Admin.Core.Service.Admin.Auth
                 if (existsPasswordKey)
                 {
                     var secretKey = await _cache.GetAsync(passwordEncryptKey);
-                    if (passwordEncryptKey.IsNull())
+                    if (secretKey.IsNull())
                     {
-                        return ResponseOutput.NotOk("解密失败！",1);
+                        return ResponseOutput.NotOk("解密失败！", 1);
                     }
                     input.Password = DesEncrypt.Decrypt(input.Password, secretKey);
                     await _cache.DelAsync(passwordEncryptKey);
                 }
                 else
                 {
-                    return ResponseOutput.NotOk("解密失败！",1);
+                    return ResponseOutput.NotOk("解密失败！", 1);
                 }
             }
             #endregion
@@ -90,22 +101,12 @@ namespace Admin.Core.Service.Admin.Auth
             var password = MD5Encrypt.Encrypt32(input.Password);
             if (user.Password != password)
             {
-                return ResponseOutput.NotOk("密码输入有误！",4);
+                return ResponseOutput.NotOk("密码输入有误！", 4);
             }
 
-            //生成token信息
-            var claims = new[]
-            {
-                new Claim(ClaimAttributes.UserId, user.Id.ToString()),
-                new Claim(ClaimAttributes.UserName, user.UserName),
-                new Claim(ClaimAttributes.UserRealName, user.Name)
-            };
-            var token = _userToken.Build(claims);
+            var authLoginOutput = _mapper.Map<AuthLoginOutput>(user);
 
-            return ResponseOutput.Ok(new 
-            { 
-                token
-            });
+            return ResponseOutput.Ok(authLoginOutput);
         }
 
         public async Task<IResponseOutput> GetUserInfoAsync()
@@ -116,42 +117,55 @@ namespace Admin.Core.Service.Admin.Auth
             }
 
             var user = await _userRepository.Select.WhereDynamic(_user.Id)
-                .ToOneAsync(m=>new { 
+                .ToOneAsync(m => new {
                     m.NickName,
-                    m.Name,
+                    m.UserName,
                     m.Avatar
                 });
 
             //获取菜单
-            var menus = await _rolePermissionRepository.Select
-                .InnerJoin<UserRoleEntity>((a, b) => a.RoleId == b.RoleId && b.UserId == _user.Id)
-                .Include(a => a.Permission.View)
-                .Where(a => new[] { PermissionType.Group,PermissionType.Menu }.Contains(a.Permission.Type))
-                .OrderBy(a => a.Permission.ParentId)
-                .OrderBy(a => a.Permission.Sort)
-                .Distinct()
+            var menus = await _permissionRepository.Select
+                .Where(a => new[] { PermissionType.Group, PermissionType.Menu }.Contains(a.Type))
+                .Where(a =>
+                    _permissionRepository.Orm.Select<RolePermissionEntity>()
+                    .InnerJoin<UserRoleEntity>((b, c) => b.RoleId == c.RoleId && c.UserId == _user.Id)
+                    .Where(b => b.PermissionId == a.Id)
+                    .Any()
+                )
+                .OrderBy(a => a.ParentId)
+                .OrderBy(a => a.Sort)
                 .ToListAsync(a => new
                 {
-                    a.Permission.Id,
-                    a.Permission.ParentId,
-                    a.Permission.Path,
-                    ViewPath = a.Permission.View.Path,
-                    a.Permission.Label,
+                    a.Id,
+                    a.ParentId,
+                    a.Path,
+                    ViewPath = a.View.Path,
+                    a.Label,
 
-                    a.Permission.Icon,
-                    a.Permission.Opened,
-                    a.Permission.Closable,
-                    a.Permission.Hidden,
-                    a.Permission.NewWindow,
-                    a.Permission.External
+                    a.Icon,
+                    a.Opened,
+                    a.Closable,
+                    a.Hidden,
+                    a.NewWindow,
+                    a.External
                 });
 
-            return ResponseOutput.Ok(new { user, menus });
+            var permissions = await _permissionRepository.Select
+                .Where(a => a.Type == PermissionType.Api)
+                .Where(a =>
+                    _permissionRepository.Orm.Select<RolePermissionEntity>()
+                    .InnerJoin<UserRoleEntity>((b, c) => b.RoleId == c.RoleId && c.UserId == _user.Id)
+                    .Where(b => b.PermissionId == a.Id)
+                    .Any()
+                )
+                .ToListAsync(a => a.Code);
+
+            return ResponseOutput.Ok(new { user, menus, permissions });
         }
 
         public async Task<IResponseOutput> GetVerifyCodeAsync(string lastKey)
         {
-            var img = VerifyCodeHelper.GetBase64String(out string code);
+            var img = _verifyCodeHelper.GetBase64String(out string code);
 
             //删除上次缓存的验证码
             if (lastKey.NotNull())
@@ -164,8 +178,7 @@ namespace Admin.Core.Service.Admin.Auth
             var key = string.Format(CacheKey.VerifyCodeKey, guid);
             await _cache.SetAsync(key, code, TimeSpan.FromMinutes(5));
 
-            var data = new { key = guid, img };
-
+            var data = new AuthGetVerifyCodeOutput { Key = guid, Img = img };
             return ResponseOutput.Ok(data);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Admin.Core.Model.Admin;
+﻿using Admin.Core.Model.Admin;
 
 namespace Admin.Core.Service.Admin.Permission.Output
 {
@@ -8,7 +7,7 @@ namespace Admin.Core.Service.Admin.Permission.Output
         /// <summary>
         /// 权限Id
         /// </summary>
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 父级节点

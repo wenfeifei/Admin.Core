@@ -1,5 +1,4 @@
-using System.ComponentModel.DataAnnotations;
-using Admin.Core.Model.Admin;
+using Admin.Core.Common.BaseModel;
 using FreeSql.DataAnnotations;
 
 namespace Admin.Core.Model.Admin
@@ -8,7 +7,7 @@ namespace Admin.Core.Model.Admin
     /// 权限
     /// </summary>
 	[Table(Name = "ad_permission")]
-    [Index("uk_permission_parentid_label", "ParentId,Label", true)]
+    [Index("uk_permission_parentid_label", nameof(ParentId) + "," + nameof(Label), true)]
     public class PermissionEntity : EntityBase
     {
         /// <summary>
@@ -19,8 +18,14 @@ namespace Admin.Core.Model.Admin
         /// <summary>
         /// 权限名称
         /// </summary>
-        [MaxLength(50)]
+        [Column(StringLength = 50)]
         public string Label { get; set; }
+
+        /// <summary>
+        /// 权限编码
+        /// </summary>
+        [Column(StringLength = 550)]
+        public string Code { get; set; }
 
         /// <summary>
         /// 权限类型
@@ -43,13 +48,13 @@ namespace Admin.Core.Model.Admin
         /// <summary>
         /// 菜单访问地址
         /// </summary>
-        [MaxLength(500)]
+        [Column(StringLength = 500)]
         public string Path { get; set; }
 
         /// <summary>
         /// 图标
         /// </summary>
-        [MaxLength(100)]
+        [Column(StringLength = 100)]
         public string Icon { get; set; }
 
         /// <summary>
@@ -90,7 +95,7 @@ namespace Admin.Core.Model.Admin
         /// <summary>
         /// 描述
         /// </summary>
-        [MaxLength(100)]
+        [Column(StringLength = 100)]
         public string Description { get; set; }
     }
 }

@@ -3,14 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AutoMapper;
-using Admin.Core.Common;
 using Admin.Core.Repository.Admin;
 using Admin.Core.Model.Admin;
-using Admin.Core.Model.Output;
+using Admin.Core.Common.Output;
 using Admin.Core.Service.Admin.Permission.Input;
 using Admin.Core.Service.Admin.Permission.Output;
 using Admin.Core.Common.Cache;
-
+using Admin.Core.Common.Attributes;
+using Admin.Core.Common.Helpers;
 
 namespace Admin.Core.Service.Admin.Permission
 {	
@@ -59,16 +59,16 @@ namespace Admin.Core.Service.Admin.Permission
             return ResponseOutput.Ok(result);
         }
 
-        public async Task<IResponseOutput> ListAsync(string key,DateTime? start,DateTime? end)
+        public async Task<IResponseOutput> ListAsync(string key, DateTime? start, DateTime? end)
         {
             if (end.HasValue)
             {
                 end = end.Value.AddDays(1);
             }
-            
+
             var data = await _permissionRepository
                 .WhereIf(key.NotNull(), a => a.Path.Contains(key) || a.Label.Contains(key))
-                .WhereIf(start.HasValue && end.HasValue,a=>a.CreatedTime.Value.BetweenEnd(start.Value,end.Value))
+                .WhereIf(start.HasValue && end.HasValue, a => a.CreatedTime.Value.BetweenEnd(start.Value, end.Value))
                 .OrderBy(a => a.ParentId)
                 .OrderBy(a => a.Sort)
                 .ToListAsync(a => new PermissionListOutput { ApiPath = a.Api.Path });

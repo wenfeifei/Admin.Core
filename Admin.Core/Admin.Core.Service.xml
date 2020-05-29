@@ -23,7 +23,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Service.Admin.Api.IApiService.PageAsync(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.ApiEntity})">
+        <member name="M:Admin.Core.Service.Admin.Api.IApiService.PageAsync(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.ApiEntity})">
             <summary>
             获得分页
             </summary>
@@ -232,6 +232,31 @@
             验证码键
             </summary>
         </member>
+        <member name="P:Admin.Core.Service.Admin.Auth.Output.AuthGetVerifyCodeOutput.Key">
+            <summary>
+            缓存键
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Auth.Output.AuthGetVerifyCodeOutput.Img">
+            <summary>
+            图片
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Auth.Output.AuthLoginOutput.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Auth.Output.AuthLoginOutput.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Auth.Output.AuthLoginOutput.NickName">
+            <summary>
+            姓名
+            </summary>
+        </member>
         <member name="T:Admin.Core.Service.Admin.Auth.MapConfig">
             <summary>
             映射配置
@@ -350,6 +375,456 @@
             映射配置
             </summary>
         </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput.ParentId">
+            <summary>
+            父级节点
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput.Label">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput.Name">
+            <summary>
+            命名
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput.Opened">
+            <summary>
+            打开
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddImageInput.DocumentId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddImageInput.Url">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput.ParentId">
+            <summary>
+            父级节点
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput.Name">
+            <summary>
+            命名
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput.Label">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput.Description">
+            <summary>
+            说明
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput.Label">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput.Html">
+            <summary>
+            Html
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateGroupInput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateGroupInput.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateMenuInput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUpdateMenuInput.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUploadImageInput.File">
+            <summary>
+            上传文件
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Input.DocumentUploadImageInput.Id">
+            <summary>
+            文档编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentGetContentOutput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentGetContentOutput.Label">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentGetContentOutput.Content">
+            <summary>
+            内容
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentGetContentOutput.Version">
+            <summary>
+            版本
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.ParentId">
+            <summary>
+            父级节点
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Label">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Type">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Name">
+            <summary>
+            命名
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Document.Output.DocumentListOutput.Opened">
+            <summary>
+            组打开
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Service.Admin.Document.MapConfig">
+            <summary>
+            映射配置
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput">
+            <summary>
+            添加
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Device">
+            <summary>
+            设备
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.BrowserInfo">
+            <summary>
+            浏览器信息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.ElapsedMilliseconds">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Status">
+            <summary>
+            操作状态
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Msg">
+            <summary>
+            操作消息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.Result">
+            <summary>
+            操作结果
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.CreatedUserId">
+            <summary>
+            创建者Id
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Input.LoginLogAddInput.CreatedUserName">
+            <summary>
+            创建者
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.CreatedUserName">
+            <summary>
+            创建者
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Device">
+            <summary>
+            设备
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.ElapsedMilliseconds">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Status">
+            <summary>
+            操作状态
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.Msg">
+            <summary>
+            操作消息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.LoginLog.Output.LoginLogListOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Service.Admin.LoginLog.MapConfig">
+            <summary>
+            映射配置
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput">
+            <summary>
+            添加
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.ApiLabel">
+            <summary>
+            接口名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.ApiPath">
+            <summary>
+            接口地址
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.ApiMethod">
+            <summary>
+            接口提交方法
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Device">
+            <summary>
+            设备
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.BrowserInfo">
+            <summary>
+            浏览器信息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.ElapsedMilliseconds">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Status">
+            <summary>
+            操作状态
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Msg">
+            <summary>
+            操作消息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Params">
+            <summary>
+            操作参数
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Input.OprationLogAddInput.Result">
+            <summary>
+            操作结果
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Id">
+            <summary>
+            编号
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.CreatedUserName">
+            <summary>
+            创建者
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.ApiLabel">
+            <summary>
+            接口名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.ApiPath">
+            <summary>
+            接口地址
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.ApiMethod">
+            <summary>
+            接口提交方法
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.IP">
+            <summary>
+            IP
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Device">
+            <summary>
+            设备
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.ElapsedMilliseconds">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Status">
+            <summary>
+            操作状态
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.Msg">
+            <summary>
+            操作消息
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.OprationLog.Output.OprationLogListOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Service.Admin.OprationLog.MapConfig">
+            <summary>
+            映射配置
+            </summary>
+        </member>
         <member name="P:Admin.Core.Service.Admin.Permission.Input.PermissionAddApiInput.Type">
             <summary>
             权限类型
@@ -368,6 +843,11 @@
         <member name="P:Admin.Core.Service.Admin.Permission.Input.PermissionAddApiInput.Label">
             <summary>
             权限名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Service.Admin.Permission.Input.PermissionAddApiInput.Code">
+            <summary>
+            权限编码
             </summary>
         </member>
         <member name="P:Admin.Core.Service.Admin.Permission.Input.PermissionAddApiInput.Description">
@@ -645,11 +1125,6 @@
             密码
             </summary>
         </member>
-        <member name="P:Admin.Core.Service.Admin.User.Input.UserAddInput.Name">
-            <summary>
-            姓名
-            </summary>
-        </member>
         <member name="P:Admin.Core.Service.Admin.User.Input.UserAddInput.NickName">
             <summary>
             昵称
@@ -738,11 +1213,6 @@
         <member name="P:Admin.Core.Service.Admin.User.Input.UserUpdateInput.UserName">
             <summary>
             账号
-            </summary>
-        </member>
-        <member name="P:Admin.Core.Service.Admin.User.Input.UserUpdateInput.Name">
-            <summary>
-            姓名
             </summary>
         </member>
         <member name="P:Admin.Core.Service.Admin.User.Input.UserUpdateInput.NickName">

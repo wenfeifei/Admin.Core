@@ -9,6 +9,11 @@
             启用登录
             </summary>
         </member>
+        <member name="T:Admin.Core.Attributes.NoOprationLogAttribute">
+            <summary>
+            禁用操作日志
+            </summary>
+        </member>
         <member name="T:Admin.Core.Attributes.PermissionAttribute">
             <summary>
             启用权限
@@ -74,7 +79,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.ApiController.GetPage(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.ApiEntity})">
+        <member name="M:Admin.Core.Controllers.Admin.ApiController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.ApiEntity})">
             <summary>
             查询分页接口
             </summary>
@@ -185,7 +190,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.DictionaryController.GetPage(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.DictionaryEntity})">
+        <member name="M:Admin.Core.Controllers.Admin.DictionaryController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.DictionaryEntity})">
             <summary>
             查询分页数据字典
             </summary>
@@ -213,33 +218,133 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.Core.Controllers.Admin.ImgController">
+        <member name="T:Admin.Core.Controllers.Admin.DocumentController">
             <summary>
-            图片管理
+            文档管理
             </summary>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.ImgController.Avatar(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,System.String)">
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetList(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
-            获取头像
+            查询文档列表
             </summary>
-            <param name="environment"></param>
-            <param name="fileName"></param>
+            <param name="key"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.ImgController.Download(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,System.String)">
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetImageList(System.Int64)">
             <summary>
-            下载图片
+            查询文档图片列表
             </summary>
-            <param name="environment"></param>
-            <param name="fileName"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.ImgController.Upload(Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetGroup(System.Int64)">
             <summary>
-            上传图片
-            支持多图片上传
+            查询单条分组
             </summary>
-            <param name="environment"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetMenu(System.Int64)">
+            <summary>
+            查询单条菜单
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetContent(System.Int64)">
+            <summary>
+            查询单条文档内容
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.GetPlainList">
+            <summary>
+            查询精简文档列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.AddGroup(Admin.Core.Service.Admin.Document.Input.DocumentAddGroupInput)">
+            <summary>
+            新增分组
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.AddMenu(Admin.Core.Service.Admin.Document.Input.DocumentAddMenuInput)">
+            <summary>
+            新增菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.UpdateGroup(Admin.Core.Service.Admin.Document.Input.DocumentUpdateGroupInput)">
+            <summary>
+            修改分组
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.UpdateMenu(Admin.Core.Service.Admin.Document.Input.DocumentUpdateMenuInput)">
+            <summary>
+            修改菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.UpdateContent(Admin.Core.Service.Admin.Document.Input.DocumentUpdateContentInput)">
+            <summary>
+            修改文档内容
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.SoftDelete(System.Int64)">
+            <summary>
+            删除文档
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.DeleteImage(System.Int64,System.String)">
+            <summary>
+            删除图片
+            </summary>
+            <param name="documentId"></param>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.DocumentController.UploadImage(Admin.Core.Service.Admin.Document.Input.DocumentUploadImageInput)">
+            <summary>
+            上传文档图片
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.Core.Controllers.Admin.LoginLogController">
+            <summary>
+            登录日志管理
+            </summary>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.LoginLogController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.LoginLogEntity})">
+            <summary>
+            查询分页登录日志
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.Core.Controllers.Admin.OprationLogController">
+            <summary>
+            操作日志管理
+            </summary>
+        </member>
+        <member name="M:Admin.Core.Controllers.Admin.OprationLogController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.OprationLogEntity})">
+            <summary>
+            查询分页操作日志
+            </summary>
+            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.Core.Controllers.Admin.PermissionController">
@@ -358,7 +463,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.RoleController.GetPage(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.RoleEntity})">
+        <member name="M:Admin.Core.Controllers.Admin.RoleController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.RoleEntity})">
             <summary>
             查询分页角色
             </summary>
@@ -411,7 +516,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.UserController.GetPage(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.UserEntity})">
+        <member name="M:Admin.Core.Controllers.Admin.UserController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.UserEntity})">
             <summary>
             查询分页用户
             </summary>
@@ -460,6 +565,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.Core.Controllers.Admin.UserController.AvatarUpload(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传头像
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.Core.Controllers.Admin.ViewController">
             <summary>
             视图管理
@@ -479,7 +591,7 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Controllers.Admin.ViewController.GetPage(Admin.Core.Model.Input.PageInput{Admin.Core.Model.Admin.ViewEntity})">
+        <member name="M:Admin.Core.Controllers.Admin.ViewController.GetPage(Admin.Core.Common.Input.PageInput{Admin.Core.Model.Admin.ViewEntity})">
             <summary>
             查询分页视图
             </summary>
@@ -540,18 +652,20 @@
             <param name="dbConfig"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Db.DbHelper.SyncStructure(IFreeSql,System.Boolean,System.String,System.String)">
+        <member name="M:Admin.Core.Db.DbHelper.SyncStructure(IFreeSql,System.String,Admin.Core.Common.Configs.DbConfig)">
             <summary>
             同步结构
             </summary>
         </member>
-        <member name="M:Admin.Core.Db.DbHelper.InitData``1(IFreeSql,``0[])">
+        <member name="M:Admin.Core.Db.DbHelper.InitDtData``1(IFreeSql,``0[],System.Data.Common.DbTransaction,Admin.Core.Common.Configs.DbConfig)">
             <summary>
-            初始化数据
+            初始化数据表数据
             </summary>
             <typeparam name="T"></typeparam>
             <param name="db"></param>
             <param name="data"></param>
+            <param name="tran"></param>
+            <param name="dbConfig"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.Core.Db.DbHelper.SyncDataAuditValue(System.Object,FreeSql.Aop.AuditValueEventArgs)">
@@ -561,7 +675,7 @@
             <param name="s"></param>
             <param name="e"></param>
         </member>
-        <member name="M:Admin.Core.Db.DbHelper.SyncData(IFreeSql)">
+        <member name="M:Admin.Core.Db.DbHelper.SyncData(IFreeSql,Admin.Core.Common.Configs.DbConfig)">
             <summary>
             同步数据
             </summary>
@@ -574,12 +688,13 @@
             <param name="db"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.Core.Db.ServiceCollectionExtensions.AddDb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Hosting.IHostEnvironment)">
+        <member name="M:Admin.Core.Db.ServiceCollectionExtensions.AddDb(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Hosting.IHostEnvironment,Admin.Core.Common.Configs.AppConfig)">
             <summary>
             添加数据库
             </summary>
             <param name="services"></param>
             <param name="env"></param>
+            <param name="appConfig"></param>
         </member>
         <member name="T:Admin.Core.Enums.ApiVersion">
             <summary>
@@ -631,9 +746,50 @@
             系统内部错误（非业务代码里显式抛出的异常，例如由于数据不正确导致空指针异常、数据库异常等等）
             </summary>
         </member>
-        <member name="T:Admin.Core.Filters.GlobalExceptionFilter">
+        <member name="M:Admin.Core.Extensions.RateLimitServiceCollectionExtensions.AddIpRateLimit(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,Admin.Core.Common.Configs.CacheConfig)">
             <summary>
-            全局异常错误过滤
+            添加Ip限流
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <param name="cacheConfig"></param>
+        </member>
+        <member name="T:Admin.Core.Filters.AdminExceptionFilter">
+            <summary>
+            Admin异常错误过滤
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Logs.ApiHelper">
+            <summary>
+            Api帮助类
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Logs.ApiHelperDto.Label">
+            <summary>
+            接口名称
+            </summary>
+        </member>
+        <member name="P:Admin.Core.Logs.ApiHelperDto.Path">
+            <summary>
+            接口地址
+            </summary>
+        </member>
+        <member name="T:Admin.Core.Logs.ILogHandler">
+            <summary>
+            操作日志处理接口
+            </summary>
+        </member>
+        <member name="M:Admin.Core.Logs.ILogHandler.LogAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+            <summary>
+            写操作日志
+            </summary>
+            <param name="context"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.Core.Logs.LogHandler">
+            <summary>
+            操作日志处理
             </summary>
         </member>
     </members>
